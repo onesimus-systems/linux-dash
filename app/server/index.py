@@ -26,7 +26,7 @@ class MainHandler(BaseHTTPRequestHandler):
             else:
                 if self.path == '/':
                     self.path = 'index.html'
-                f = open(appRootPath + os.sep + self.path)
+                f = open(appRootPath + os.sep + 'static' + os.sep + self.path)
                 data = f.read()
                 if self.path.startswith('/main.css'):
                     contentType = 'text/css'

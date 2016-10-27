@@ -20,10 +20,10 @@ if (args.length > 0) {
 server.listen(port);
 console.log(`Linux Dash Server Started On Port ${port}!`);
 
-app.use(express.static(path.resolve(__dirname + '/../')));
+app.use(express.static(path.resolve(__dirname + '/../static/')));
 
 app.get('/', function (req, res) {
-    res.sendFile(path.resolve(__dirname + '/../index.html'));
+    res.sendFile(path.resolve(__dirname + '/../static/index.html'));
 });
 
 app.get('/websocket', function (req, res) {
