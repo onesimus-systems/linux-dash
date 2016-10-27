@@ -37,7 +37,14 @@ wsServer = new ws({
 });
 
 function getPluginData(pluginName, callback) {
-    var command = spawn(__dirname + '/modules/' + pluginName + '.sh', [ pluginName, '' ]);
+    var command;
+    try {
+        command = spawn(__dirname + '/modules/' + pluginName + '.sh', [ pluginName, '' ]);
+    } catch (e) {
+        console.log(`Error executing module: ${e}`);
+        callback(0, ["{}"]);
+        return;
+    }
     var output  = [];
 
     command.stdout.on('data', function(chunk) {

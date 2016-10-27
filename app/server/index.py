@@ -18,11 +18,14 @@ class MainHandler(BaseHTTPRequestHandler):
             contentType = 'text/html'
             if self.path.startswith("/server/"):
                 module = self.path.split('=')[1]
-                output = subprocess.Popen(
-                    appRootPath + modulesSubPath + module + ".sh",
-                    shell = True,
-                    stdout = subprocess.PIPE)
-                data = output.communicate()[0]
+                modulePath = appRootPath + modulesSubPath + module + ".sh"
+                if os.path.isfile(modulePath):
+                    output = subprocess.Popen(
+                        modulePath,
+                        shell = True,
+                        stdout = subprocess.PIPE)
+                    data = output.communicate()[0]
+                    contentType = 'application/json'
             else:
                 if self.path == '/':
                     self.path = 'index.html'
