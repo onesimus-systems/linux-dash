@@ -1,10 +1,12 @@
-var g             = require('gulp')
-var concat        = require('gulp-concat')
-var uglify        = require('gulp-uglify')
-var cssmin        = require('gulp-cssmin')
-var gutil         = require('gulp-util')
-var ngAnnotate    = require('gulp-ng-annotate')
-var templateCache = require('gulp-angular-templatecache')
+var g             = require('gulp');
+var concat        = require('gulp-concat');
+var uglify        = require('gulp-uglify');
+var cssmin        = require('gulp-cssmin');
+var gutil         = require('gulp-util');
+var ngAnnotate    = require('gulp-ng-annotate');
+var templateCache = require('gulp-angular-templatecache');
+
+var distDest = 'app/static';
 
 g.task('template-cache', function () {
   return g.src('src/**/*.html')
@@ -13,8 +15,8 @@ g.task('template-cache', function () {
         standAlone: false,
         root: 'src/'
       }))
-    .pipe(g.dest('temp/'))
-})
+    .pipe(g.dest('temp/'));
+});
 
 g.task('generate-js-dist', ['template-cache'], function () {
   return g.src([
@@ -29,24 +31,24 @@ g.task('generate-js-dist', ['template-cache'], function () {
   .pipe(ngAnnotate())
   .pipe(uglify())
   .on('error', gutil.log)
-  .pipe(g.dest('app/'))
-})
+  .pipe(g.dest(distDest));
+});
 
 g.task('generate-css-dist', function () {
   return g.src([ 'src/**/*.css' ])
     .pipe(cssmin())
     .pipe(concat('linuxDash.min.css'))
-    .pipe(g.dest('app/'))
-})
+    .pipe(g.dest(distDest));
+});
 
 g.task('build', [
   'generate-js-dist',
   'generate-css-dist'
-])
+]);
 
 g.task('watch', function () {
-  g.watch('src/**/*.css', ['generate-css-dist'])
-  g.watch(['src/**/*.js', 'src/**/*.html'], ['generate-js-dist'])
-})
+  g.watch('src/**/*.css', ['generate-css-dist']);
+  g.watch(['src/**/*.js', 'src/**/*.html'], ['generate-js-dist']);
+});
 
-g.task('default', ['build', 'watch'])
+g.task('default', ['build', 'watch']);
