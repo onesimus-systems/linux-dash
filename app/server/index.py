@@ -5,7 +5,7 @@ from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer, test as _test
 import subprocess
 from SocketServer import ThreadingMixIn
 
-modulesSubPath = '/server/linux_json_api.sh'
+modulesSubPath = '/modules/'
 appRootPath = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
 class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
@@ -19,7 +19,7 @@ class MainHandler(BaseHTTPRequestHandler):
             if self.path.startswith("/server/"):
                 module = self.path.split('=')[1]
                 output = subprocess.Popen(
-                    appRootPath + modulesSubPath + " " + module,
+                    appRootPath + modulesSubPath + module + ".sh",
                     shell = True,
                     stdout = subprocess.PIPE)
                 data = output.communicate()[0]

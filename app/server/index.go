@@ -12,6 +12,7 @@ import (
 var (
 	listenAddress = flag.String("listen", "0.0.0.0:80", "Where the server listens for connections. [interface]:port")
 	staticPath    = flag.String("static", "../static/", "Location of static files.")
+	modulesPath   = flag.String("modules", "./modules/", "Location of modules.")
 )
 
 func init() {
@@ -28,7 +29,8 @@ func main() {
 		}
 
 		// Execute the command
-		cmd := exec.Command("./linux_json_api.sh", module)
+		cmdPath := fmt.Sprintf("%s/%s.sh", *modulesPath, module)
+		cmd := exec.Command(cmdPath)
 		var output bytes.Buffer
 		cmd.Stdout = &output
 		err := cmd.Run()

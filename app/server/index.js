@@ -36,10 +36,8 @@ wsServer = new ws({
     httpServer: server
 });
 
-var nixJsonAPIScript = __dirname + '/linux_json_api.sh';
-
 function getPluginData(pluginName, callback) {
-    var command = spawn(nixJsonAPIScript, [ pluginName, '' ]);
+    var command = spawn(__dirname + '/modules/' + pluginName + '.sh', [ pluginName, '' ]);
     var output  = [];
 
     command.stdout.on('data', function(chunk) {
